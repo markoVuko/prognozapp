@@ -1,0 +1,2 @@
+# prognozapp
+paragraf lex prognozapp
