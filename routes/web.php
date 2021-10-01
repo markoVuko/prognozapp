@@ -15,12 +15,14 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [App\Http\Controllers\HomeController::class, 'index']);
 
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::get('/getInfo', [App\Http\Controllers\HomeController::class, 'getInfo']);
+
+Route::post('/cities/{name}', [App\Http\Controllers\CityController::class, 'addCity']);
+Route::get('/cities', [App\Http\Controllers\CityController::class, 'getCities']);
+Route::delete('/cities/{name}', [App\Http\Controllers\CityController::class, 'delCity']);
