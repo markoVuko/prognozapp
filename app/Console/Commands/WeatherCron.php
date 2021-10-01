@@ -128,7 +128,7 @@ class WeatherCron extends Command
 
                     $txt = "During " . explode(" ",$f['dt_txt'])[0] . " in the city of " . $f['city_name'] . 
                     " you can expect " . $f['weather_desc'] . " with a minimum temperature of " . $f['temp_min'] ."C and a maximum temperature of "
-                    . $f['temp_max'] . "C. We recommend wearing " . $prep."\n\n";
+                    . $f['temp_max'] . "C. The average humidity will be ".$f['humidity']." and the average pressure will be ".$f['pressure'].". We recommend wearing " . $prep."\n\n";
                     
                     array_push($niz, $txt);
                     $forecastsForUser[$f['city_name']] = $niz;
