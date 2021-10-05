@@ -1,12 +1,27 @@
 <template>
-  <div id="selector-div">
-      <form @submit.prevent="" id="selector-form">
-          <label for="city-select">Choose a city</label>
-          <select  class="form-control" name="city-select" id="city-select" v-model="izabraniGrad">
-            <option v-for="g in gradovi" :key="g" :value="g">{{ g }}</option>
-          </select>
-          <button class="btn btn-primary" type="submit" @click="izaberiGrad()">Subscribe</button>
-      </form>
+  <div  id="selector-div">
+
+
+                    <form @submit.prevent="" id="selector-form">
+                        <h3>Subscribe to a city</h3>
+                        <label for="city-select">City</label>
+                        <select  class="form-control" name="city-select" id="city-select" v-model="izabraniGrad">
+                            <option v-for="g in gradovi" :key="g" :value="g">{{ g }}</option>
+                        </select>
+                        <button class="btn btn-primary" type="submit" @click="izaberiGrad()">Subscribe</button>
+                    </form>
+
+                <form @submit.prevent="" id="time-form">
+                        <h3>Schedule your update</h3>
+                        <label for="time-select">Time:</label>
+                        <select  class="form-control" name="time-select" id="time-select" v-model="izabranoVreme">
+                            <option v-for="v in vremena" :key="v" :value="v">{{ v }}</option>
+                        </select>
+                        <button class="btn btn-primary" type="submit" @click="izaberiVreme()">Schedule</button>
+                    </form>
+
+
+
   </div>
 </template>
 
@@ -17,6 +32,32 @@ export default {
     data(){
         return {
             izabraniGrad:null,
+            izabranoVreme:null,
+            vremena:[
+                '01:00',
+                '02:00',
+                '03:00',
+                '04:00',
+                '05:00',
+                '06:00',
+                '07:00',
+                '08:00',
+                '09:00',
+                '10:00',
+                '11:00',
+                '12:00',
+                '13:00',
+                '14:00',
+                '15:00',
+                '16:00',
+                '17:00',
+                '18:00',
+                '19:00',
+                '20:00',
+                '21:00',
+                '22:00',
+                '23:00'
+            ],
             gradovi:[
                 "Tirana",
                 "Andorra la Vella",
@@ -67,6 +108,20 @@ export default {
         }
     },
     methods:{
+        izaberiVreme(){
+            if(this.izabranoVreme == null){
+                alert("You haven't chosen a time!");
+                return;
+            }
+
+            axios.put('/api/users/'+this.$props.user.id, {mail_time:this.izabranoVreme}).then((response) => {
+                console.log(response);
+                alert("You have scheduled your mailing time successfully!");
+            })
+            .catch(error =>{
+                console.log(error);
+            });
+        },
         izaberiGrad(){
             if(this.izabraniGrad == null){
                 alert("You haven't chosen a city!");
@@ -78,22 +133,27 @@ export default {
     },
     mounted(){
         console.log("uspesno");
-    }
+    },
+    props:['user']
 
 }
 </script>
 
 <style>
-#selector-form {
+
+#selector-form, #time-form {
  width:50%;
  height:200px;
  margin-left:40%;
  margin-top:15%;
 }
 
-#city-select {
+#city-select, #time-select {
     width:150px;
 }
+
+
+
 
 .btn {
     margin-top:7px;

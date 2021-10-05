@@ -35,4 +35,6 @@ Route::get('/reports', [App\Http\Controllers\ReportController::class, 'index']);
 Route::get('/cities/{dist}', [App\Http\Controllers\CityController::class, 'show']);
 
 Route::get('/users', [App\Http\Controllers\UserController::class, 'show']);
+Route::get('/users/{id}', [App\Http\Controllers\UserController::class, 'show']);
+Route::put('/users/{id}', [App\Http\Controllers\UserController::class, 'update']);
 

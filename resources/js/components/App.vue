@@ -2,7 +2,7 @@
   <div>
     <navbar :user="user" />
     <div id="content-wrapper">
-      <city-selector @gradJeIzabran="preuzmiGrad($event)" />
+      <city-selector @gradJeIzabran="preuzmiGrad($event)" :user="user" />
       <city-list :cities="gradoviZaListu" @skloniGrad="skloni($event)" />
       <div id="empty"></div>
     </div>
@@ -14,12 +14,13 @@ import Navbar from './Navbar.vue';
 import CitySelector from './CitySelector.vue';
 import CityList from './CityList.vue';
 import axios from 'axios'
+import "bootstrap/dist/css/bootstrap.min.css"
 
 export default {
   created(){
     this.uzmiInfo();
     this.uzmiGradove();
-    
+
   },
   data(){
     return {
@@ -84,7 +85,7 @@ export default {
                 console.log(error);
         });
 
-  
+
     }
   },
   components:{

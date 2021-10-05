@@ -5,6 +5,7 @@ namespace App\Console;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use Illuminate\Support\Facades\DB;
+use App\Models\User;
 
 class Kernel extends ConsoleKernel
 {
@@ -15,7 +16,7 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         \App\Console\Commands\WeatherCron::class,
-        \App\Console\Commands\MailCron::class,
+        \App\Console\Commands\SenderCron::class,
     ];
 
     /**
@@ -27,8 +28,18 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // $schedule->command('inspire')->hourly();
-        
+
         $schedule->command('weather:cron')->dailyAt('00:01');
+
+        User::query()->each(function (User $user) use ($schedule) {
+            $time = $user->mail_time;
+            if($time == null){
+                $time = "01:00";
+            }
+            $schedule->command('sender:cron', ['user_id' => $user->id])
+                     ->withoutOverlapping()
+                     ->dailyAt($time);
+        });
 
     }
 
