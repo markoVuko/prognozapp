@@ -8,8 +8,9 @@ use Carbon\Carbon;
 
 class ReportController extends Controller
 {
-    public function store(Request $r){
-        $forecast = $r->get('forecast');
+    public function store(Request $r=null,$f){
+        if($r == null){$forecast = $f;}
+        else {$forecast = $r->get('forecast');}
         return Report::create([
             'city_name' => $forecast['city_name'],
             'country' => $forecast['country'],
@@ -23,9 +24,10 @@ class ReportController extends Controller
         ]);
     }
 
-    public function index(Request $r){
+    public function index(Request $r=null,$city_name=null){
         $q = Report::select();
-        $niz = $r->get('city_name');
+        if($r == null){$niz = $city_name;}
+        else {$niz = $r->get('city_name');}
         if($niz != null){
             $q->whereDate('created_at',Carbon::today())->where(function($t) use($niz){
                 $t->where('city_name','=',$niz[0]);
@@ -33,15 +35,15 @@ class ReportController extends Controller
                     $t->orWhere('city_name', '=', $niz[$i]);
                 }
             });
-    
-            
+
+
             return $q->get();
         } else {
             return Report::get();
         }
 
-        
-        
+
+
     }
 }
 

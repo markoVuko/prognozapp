@@ -40,16 +40,21 @@ class SenderCron extends Command
     public function handle()
     {
         $user_id = $this->argument("user_id");
-        $client = new \GuzzleHttp\Client();
+        /*$client = new \GuzzleHttp\Client();
         $url_r = "http://127.0.0.1:8000/api/reports";
         //$url_c = "http://127.0.0.1:8000/api/cities";
         $url_u = "http://127.0.0.1:8000/api/users";
 
         $res = $client->request('GET', $url_u."/".$user_id);
-        $user = json_decode($res->getBody(), true);
+        $user = json_decode($res->getBody(), true);*/
 
-        $res = $client->request('GET', $url_r, ['query' => $user['cities']]);
-        $forecasts = json_decode($res->getBody(), true);
+        $user = app('App\Http\Controllers\UserController')->show(null,$user_id);
+
+        /*$res = $client->request('GET', $url_r, ['query' => $user['cities']]);
+        $forecasts = json_decode($res->getBody(), true);*/
+
+        $forecasts = app('App\Http\Controllers\ReportController')->index(null,$user->cities);
+        error_log(json_encode($forecasts));
 
         $forecastsForUser = array();
         $i = 1;

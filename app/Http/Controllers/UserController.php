@@ -23,7 +23,7 @@ class UserController extends Controller
         return $arr;
     }
 
-    public function show(Request $r, $id){
+    public function show(Request $r=null, $id){
         $user = User::find($id);
         $uRes = new stdClass;
         $cities = $user->selectedCities;
@@ -40,5 +40,9 @@ class UserController extends Controller
     public function update(Request $r, $id){
         $user = User::find($id);
         $user->update($r->all());
+    }
+
+    public function token(){
+        return csrf_token();
     }
 }

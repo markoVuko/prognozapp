@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\PersonalAccessToken;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -27,6 +29,13 @@ class HomeController extends Controller
     }
 
     public function getInfo(Request $r){
-        return $r->user();
+        PersonalAccessToken::where('tokenable_id',$r->user()->id)->delete();
+        $user = User::where('email',$r->user()->email)->first();
+            // $user = $r->user();
+        $t = $user->createToken('asdf')->plainTextToken;
+        $user->token = explode("|",$t)[1];
+
+        return $user;
+
     }
 }

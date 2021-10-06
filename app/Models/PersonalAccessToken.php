@@ -8,7 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class User extends Authenticatable
+class PersonalAccessToken extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
@@ -18,32 +18,27 @@ class User extends Authenticatable
      * @var string[]
      */
     protected $fillable = [
+        'tokenable_type',
+        'tokenable_id',
         'name',
-        'email',
-        'password',
-        'mail_time',
+        'token',
+        'abilities',
     ];
+
+    protected $table = "personal_access_tokens";
 
     /**
      * The attributes that should be hidden for serialization.
      *
      * @var array
      */
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
+
 
     /**
      * The attributes that should be cast.
      *
      * @var array
      */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
 
-    public function selectedCities(){
-        return $this->hasMany(SelectedCity::class, 'user_id', 'id');
-    }
+
 }

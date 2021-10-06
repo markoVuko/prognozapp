@@ -113,8 +113,9 @@ export default {
                 alert("You haven't chosen a time!");
                 return;
             }
-
-            axios.put('/api/users/'+this.$props.user.id, {mail_time:this.izabranoVreme}).then((response) => {
+            const config = { headers: { Authorization: `Bearer ${this.$props.user.token}`}};
+            console.log(config);
+            axios.put('/api/users/'+this.$props.user.id, {mail_time:this.izabranoVreme}, config).then((response) => {
                 console.log(response);
                 alert("You have scheduled your mailing time successfully!");
             })

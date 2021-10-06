@@ -54,14 +54,16 @@ export default {
       });
     },
     uzmiInfo(){
-      axios.get('/getInfo').then((response) => {
-        console.log(response);
-        //Vue.$set(this.user,"name",response.data.name);
-        this.user = response.data;
-      })
-      .catch(error =>{
-        console.log(error);
-      });
+
+          axios.get('/getInfo').then((response) => {
+            console.log(response);
+            //Vue.$set(this.user,"name",response.data.name);
+            this.user = response.data;
+        })
+        .catch(error =>{
+            console.log(error);
+        });
+
     },
     preuzmiGrad(grad){
       if(this.gradoviZaListu.length >= 10){
@@ -107,7 +109,7 @@ export default {
   float:left;
 }
 #selector-div, #cities-div {
-  height:500px;
+  min-height:500px;
   width:45%;
   float:left;
 }

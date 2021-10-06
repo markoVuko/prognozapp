@@ -43,15 +43,17 @@ class WeatherCron extends Command
 
         $url_r = "http://127.0.0.1:8000/api/reports";
         $url_c = "http://127.0.0.1:8000/api/cities";
-        $url_u = "http://127.0.0.1:8000/api/users";
+      //$url_u = "http://127.0.0.1:8000/api/users";
 
         //Uzimanje unikatnih gradova na koje su korisnici prijavljeni
-        $res = $client->request('GET', $url_c."/city_name");
-        $gradovi = json_decode($res->getBody(), true);
+        //$res = $client->request('GET', $url_c."/city_name");
+        //$gradovi = json_decode($res->getBody(), true);
+        $gradovi = app('App\Http\Controllers\CityController')->show(null,"city_name");
+
         //error_log($gradovi[0]['city_name']);
         $niz['city_name'] = [];
 
-        //uzimanje prognoza prognoza iz weatherapi za svaki grad i unosenje u bazu
+     //uzimanje prognoza prognoza iz weatherapi za svaki grad i unosenje u bazu
         foreach ($gradovi as $g) {
             array_push($niz['city_name'],$g['city_name']);
             $url = 'https://api.openweathermap.org/data/2.5/forecast?q='.$g['city_name'].'&appid=283ffcd4756f546f71f2e37f52c59bd9&units=metric';
@@ -71,8 +73,8 @@ class WeatherCron extends Command
                 $forecast->pressure = $arrFore[$i]["main"]["pressure"];
                 $forecast->dt_txt = $arrFore[$i]["dt_txt"];
 
-                $t = $client->request('POST', $url_r, ['json' => ['forecast' => $forecast]]);
-
+               // $t = $client->request('POST', $url_r, ['json' => ['forecast' => $forecast]]);
+                $t = app('App\Http\Controllers\ReportController')->store(null,json_decode(json_encode($forecast), true));
             }
         }
 

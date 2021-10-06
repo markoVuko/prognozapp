@@ -16,7 +16,7 @@ class CityController extends Controller
         return SelectedCity::where('user_id',$r->user()->id)->get();
         //return response('Unet',200);
     }
-    
+
     public function getCities(Request $r){
         return SelectedCity::where('user_id',$r->user()->id)->get();
     }
@@ -27,8 +27,8 @@ class CityController extends Controller
 
         return SelectedCity::where('user_id',$r->user()->id)->get();
     }
-    
-    public function show(Request $r, $dist){
+
+    public function show(Request $r=null, $dist){
         return SelectedCity::select($dist)->distinct($dist)->get();
     }
 

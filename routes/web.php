@@ -26,3 +26,5 @@ Route::get('/getInfo', [App\Http\Controllers\HomeController::class, 'getInfo']);
 Route::post('/cities/{name}', [App\Http\Controllers\CityController::class, 'addCity']);
 Route::get('/cities', [App\Http\Controllers\CityController::class, 'getCities']);
 Route::delete('/cities/{name}', [App\Http\Controllers\CityController::class, 'delCity']);
+
+Route::get('/token', [App\Http\Controllers\UserController::class, 'token']);
